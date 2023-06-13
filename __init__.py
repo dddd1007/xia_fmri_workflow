@@ -154,6 +154,8 @@ def workflow_param_glm_1stlevel(root_dir, sub_num, session_num, params_name, all
     print("Save subject " + str(sub_num) + "'s data to /n" + output_dir)
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     os.chdir(output_dir)
+
+    print("Generating SPM model for subject " + str(sub_num) + "...")
     nii_list, realignment_para_file_list, single_sub_data, sub_name = nii_selector(
         root_dir, sub_num, session_num, all_data)
     subject_info = parametric_condition_generator(
@@ -167,6 +169,7 @@ def workflow_param_glm_1stlevel(root_dir, sub_num, session_num, params_name, all
                                 functional_runs=nii_list)
     spmModel = gen_model.run()
 
+    print("Estimating SPM model for subject " + str(sub_num) + " (1/2)...")
     design_model = Level1Design(bases={'hrf': {'derivs': [1, 0]}},
                                 timing_units='scans',
                                 interscan_interval=1.5,
@@ -177,6 +180,7 @@ def workflow_param_glm_1stlevel(root_dir, sub_num, session_num, params_name, all
 
     firstLevelModel = design_model.run()
 
+    print("Contrast SPM model for subject " + str(sub_num) + " (2/2)...")
     estimator = EstimateModel(estimation_method={'Classical': 1},
                               spm_mat_file=firstLevelModel.outputs.spm_mat_file)
     estimateResult = estimator.run()
@@ -189,6 +193,8 @@ def workflow_condition_glm_1stlevel(root_dir, sub_num, session_num, factors_name
     print("Save subject " + str(sub_num) + "'s data to /n" + output_dir)
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     os.chdir(output_dir)
+
+    print("Generating SPM model for subject " + str(sub_num) + "...")
     nii_list, realignment_para_file_list, single_sub_data, sub_name = nii_selector(
         root_dir, sub_num, session_num, all_data)
     subject_info = factor_condition_generator(
@@ -202,6 +208,7 @@ def workflow_condition_glm_1stlevel(root_dir, sub_num, session_num, factors_name
                                 functional_runs=nii_list)
     spmModel = gen_model.run()
 
+    print("Estimating SPM model for subject " + str(sub_num) + " (1/2)...")
     design_model = Level1Design(bases={'hrf': {'derivs': [1, 0]}},
                                 timing_units='scans',
                                 interscan_interval=1.5,
@@ -212,6 +219,7 @@ def workflow_condition_glm_1stlevel(root_dir, sub_num, session_num, factors_name
 
     firstLevelModel = design_model.run()
 
+    print("Contrast SPM model for subject " + str(sub_num) + " (2/2)...")
     estimator = EstimateModel(estimation_method={'Classical': 1},
                               spm_mat_file=firstLevelModel.outputs.spm_mat_file)
     estimateResult = estimator.run()
@@ -220,6 +228,8 @@ def workflow_condition_glm_1stlevel(root_dir, sub_num, session_num, factors_name
 
 
 def workflow_contrast(estimateResult, contrast_list):
+
+    print("Contrast SPM model")
     level1conest = EstimateContrast(beta_images=estimateResult.outputs.beta_images,
                                     residual_image=estimateResult.outputs.residual_image,
                                     spm_mat_file=estimateResult.outputs.spm_mat_file,
