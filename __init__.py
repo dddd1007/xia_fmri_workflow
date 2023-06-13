@@ -151,7 +151,7 @@ def generate_spm_conditions(matfile):
 
 def workflow_param_glm_1stlevel(root_dir, sub_num, session_num, params_name, all_data, output_dir, folder_name):
     output_dir = os.path.join(output_dir, "paramGLM/" + folder_name +"/1stLevel/sub" + str(sub_num))
-    print("Save subject " + str(sub_num) + "'s data to /n" + output_dir)
+    print("Save subject " + str(sub_num) + "'s data to \n" + output_dir)
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     os.chdir(output_dir)
 
