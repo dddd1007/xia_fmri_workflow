@@ -190,7 +190,7 @@ def workflow_param_glm_1stlevel(root_dir, sub_num, session_num, params_name, all
 
 def workflow_condition_glm_1stlevel(root_dir, sub_num, session_num, factors_name, all_data, output_dir, folder_name = "reverse_control"):
     output_dir = os.path.join(output_dir, "condGLM/" + folder_name +"/1stLevel/sub" + str(sub_num))
-    print("Save subject " + str(sub_num) + "'s data to /n" + output_dir)
+    print("Save subject " + str(sub_num) + "'s data to \n" + output_dir)
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     os.chdir(output_dir)
 
@@ -219,7 +219,7 @@ def workflow_condition_glm_1stlevel(root_dir, sub_num, session_num, factors_name
 
     firstLevelModel = design_model.run()
 
-    print("Contrast SPM model for subject " + str(sub_num) + " (2/2)...")
+    print("Estimating SPM model for subject " + str(sub_num) + " (2/2)...")
     estimator = EstimateModel(estimation_method={'Classical': 1},
                               spm_mat_file=firstLevelModel.outputs.spm_mat_file)
     estimateResult = estimator.run()
