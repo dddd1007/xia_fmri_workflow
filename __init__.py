@@ -8,6 +8,7 @@ from nipype.algorithms.modelgen import SpecifySPMModel
 
 # Helper functions
 
+
 def nii_selector(root_dir, sub_num, session_num, all_sub_dataframe, data_type="Smooth_8mm"):
     import os
     import glob
@@ -140,20 +141,29 @@ def parametric_condition_generator(single_sub_data, params_name, realignment_par
 def generate_spm_conditions(matfile):
     spm = scipy.io.loadmat(matfile)
     all_conditions_list = spm['SPM'][0][0]['xX']['name'][0][0][0].tolist()
-    all_conditions = [x.tolist()[0] for x in spm['SPM'][0][0]['xX']['name'][0][0][0].tolist()]
+    all_conditions = [x.tolist()[0] for x in spm['SPM'][0][0]
+                      ['xX']['name'][0][0][0].tolist()]
     condition_names = [re.sub("Sn\(.\) ", "", i) for i in all_conditions]
     conditions_count = len(all_conditions) / 6
-    single_run_conditions = [all_conditions_list[x][0] for x in range(int(conditions_count - 1))]
-    
+    single_run_conditions = [all_conditions_list[x][0]
+                             for x in range(int(conditions_count - 1))]
+
     return condition_names, single_run_conditions
 
 # Workflow functions
 
+
 def workflow_param_glm_1stlevel(root_dir, sub_num, session_num, params_name, all_data, output_dir, folder_name):
-    output_dir = os.path.join(output_dir, "paramGLM/" + folder_name +"/1stLevel/sub" + str(sub_num))
-    print("Save subject " + str(sub_num) + "'s data to \n" + output_dir)
-    Path(output_dir).mkdir(parents=True, exist_ok=True)
-    os.chdir(output_dir)
+    output_dir = os.path.join(
+        output_dir, "paramGLM/" + folder_name + "/1stLevel/sub" + str(sub_num))
+
+    if output_path.is_dir():
+        print("Error: the old files still there!")
+        sys.exit()
+    else:
+        print("Save subject " + str(sub_num) + "'s data to \n" + output_dir)
+        Path(output_dir).mkdir(parents=True, exist_ok=True)
+        os.chdir(output_dir)
 
     print("Generating SPM model for subject " + str(sub_num) + "...")
     nii_list, realignment_para_file_list, single_sub_data, sub_name = nii_selector(
@@ -188,11 +198,17 @@ def workflow_param_glm_1stlevel(root_dir, sub_num, session_num, params_name, all
     return estimateResult
 
 
-def workflow_condition_glm_1stlevel(root_dir, sub_num, session_num, factors_name, all_data, output_dir, folder_name = "reverse_control"):
-    output_dir = os.path.join(output_dir, "condGLM/" + folder_name +"/1stLevel/sub" + str(sub_num))
-    print("Save subject " + str(sub_num) + "'s data to \n" + output_dir)
-    Path(output_dir).mkdir(parents=True, exist_ok=True)
-    os.chdir(output_dir)
+def workflow_condition_glm_1stlevel(root_dir, sub_num, session_num, factors_name, all_data, output_dir, folder_name="reverse_control"):
+    output_dir = os.path.join(
+        output_dir, "condGLM/" + folder_name + "/1stLevel/sub" + str(sub_num))
+
+    if output_path.is_dir():
+        print("Error: the old files still there!")
+        sys.exit()
+    else:
+        print("Save subject " + str(sub_num) + "'s data to \n" + output_dir)
+        Path(output_dir).mkdir(parents=True, exist_ok=True)
+        os.chdir(output_dir)
 
     print("Generating SPM model for subject " + str(sub_num) + "...")
     nii_list, realignment_para_file_list, single_sub_data, sub_name = nii_selector(
