@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 import re
+import sys
 import scipy.io
 from pathlib import Path
 from nipype.interfaces.spm import Level1Design, EstimateModel, EstimateContrast
@@ -154,15 +155,13 @@ def generate_spm_conditions(matfile):
 
 
 def workflow_param_glm_1stlevel(root_dir, sub_num, session_num, params_name, all_data, output_dir, folder_name):
-    output_dir = os.path.join(
-        output_dir, "paramGLM/" + folder_name + "/1stLevel/sub" + str(sub_num))
-
-    if output_path.is_dir():
+    output_dir = Path(output_dir) / "paramGLM" / folder_name / "1stLevel" / ("sub" + str(sub_num))
+    if output_dir.is_dir():
         print("Error: the old files still there!")
         sys.exit()
     else:
-        print("Save subject " + str(sub_num) + "'s data to \n" + output_dir)
-        Path(output_dir).mkdir(parents=True, exist_ok=True)
+        print("Save subject " + str(sub_num) + "'s data to \n" + str(output_dir))
+        output_dir.mkdir(parents=True, exist_ok=True)
         os.chdir(output_dir)
 
     print("Generating SPM model for subject " + str(sub_num) + "...")
@@ -199,15 +198,13 @@ def workflow_param_glm_1stlevel(root_dir, sub_num, session_num, params_name, all
 
 
 def workflow_condition_glm_1stlevel(root_dir, sub_num, session_num, factors_name, all_data, output_dir, folder_name="reverse_control"):
-    output_dir = os.path.join(
-        output_dir, "condGLM/" + folder_name + "/1stLevel/sub" + str(sub_num))
-
-    if output_path.is_dir():
+    output_dir = Path(output_dir) / "condGLM" / folder_name / "1stLevel" / ("sub" + str(sub_num))
+    if output_dir.is_dir():
         print("Error: the old files still there!")
         sys.exit()
     else:
-        print("Save subject " + str(sub_num) + "'s data to \n" + output_dir)
-        Path(output_dir).mkdir(parents=True, exist_ok=True)
+        print("Save subject " + str(sub_num) + "'s data to \n" + str(output_dir))
+        output_dir.mkdir(parents=True, exist_ok=True)
         os.chdir(output_dir)
 
     print("Generating SPM model for subject " + str(sub_num) + "...")
