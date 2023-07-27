@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Xiaokai Xia <dddd1007@gmail.com>"]
 readme = "README.md"
-packages = [{include = "xia-fmri-workflow"}]
+packages = [{include = "xia_fmri_workflow"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
