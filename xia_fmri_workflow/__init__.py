@@ -157,7 +157,7 @@ def generate_spm_conditions(matfile):
 def workflow_param_glm_1stlevel(root_dir, sub_num, session_num, params_name, all_data, output_dir, folder_name):
     output_dir = Path(output_dir) / "paramGLM" / folder_name / "1stLevel" / ("sub" + str(sub_num))
     if output_dir.is_dir():
-        print("Error: the old files still there!")
+        print("Error: the old files still there! The analysis will be stopped!")
         sys.exit()
     else:
         print("Save subject " + str(sub_num) + "'s data to \n" + str(output_dir))
@@ -200,7 +200,7 @@ def workflow_param_glm_1stlevel(root_dir, sub_num, session_num, params_name, all
 def workflow_condition_glm_1stlevel(root_dir, sub_num, session_num, factors_name, all_data, output_dir, folder_name="reverse_control"):
     output_dir = Path(output_dir) / "condGLM" / folder_name / "1stLevel" / ("sub" + str(sub_num))
     if output_dir.is_dir():
-        print("Error: the old files still there!")
+        print("Error: the old files still there! The analysis will be stopped!")
         sys.exit()
     else:
         print("Save subject " + str(sub_num) + "'s data to \n" + str(output_dir))
