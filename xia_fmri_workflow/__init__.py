@@ -113,7 +113,7 @@ def factor_condition_generator(
             durations=bunch_duration,
             regressor_names=["X", "Y", "Z", "x_r", "y_r", "z_r"],
             regressors=head_movement_regressor_generator(
-                realignment_para_file_list[i - 1]
+                realignment_para_file_list[int(i) - 1]
             ),
         )
         subject_info.append(tmp_Bunch)
@@ -167,7 +167,7 @@ def parametric_condition_generator(
             ],
             regressor_names=["X", "Y", "Z", "x_r", "y_r", "z_r"],
             regressors=head_movement_regressor_generator(
-                realignment_para_file_list[i - 1]
+                realignment_para_file_list[int(i) - 1]
             ),
         )
         subject_info.append(tmp_Bunch)
